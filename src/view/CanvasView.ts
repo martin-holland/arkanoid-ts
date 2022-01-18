@@ -3,13 +3,14 @@
 import { Brick } from '../sprites/Brick'
 import { Ball } from '../sprites/Ball'
 import { Paddle } from '../sprites/Paddle'
+import { BRICK_IMAGES } from '~/setup';
 
 export class CanvasView {
-    private canvas: HTMLCanvasElement;
-    private context: CanvasRenderingContext2D | null;
-    private scoreDisplay: HTMLObjectElement | null;
-    private start: HTMLObjectElement | null;
-    private info: HTMLObjectElement | null;
+    canvas: HTMLCanvasElement;
+    context: CanvasRenderingContext2D | null;
+    scoreDisplay: HTMLObjectElement | null;
+    start: HTMLObjectElement | null;
+    info: HTMLObjectElement | null;
 
     constructor(canvasName: string) {
         this.canvas = document.querySelector(canvasName) as HTMLCanvasElement;
@@ -24,7 +25,30 @@ export class CanvasView {
     }
 
     initStartButton(startFunction: (view: CanvasView) => void): void {
-        
+        this.start?.addEventListener('click', () => startFunction(this))
+    }
+
+    drawScore(score: number): void {
+        if (this.scoreDisplay) this.scoreDisplay.innerHTML = score.toString();
+    }
+
+    drawInfo(text: string): void {
+        if (this.info) this.info.innerHTML = text;
+    }
+
+    drawSprite(brick: Brick | Paddle | Ball): void {
+        if (!brick) return;
+        this.context?.drawImage(
+            brick.image,
+            brick.pos.x,
+            brick.pos.y,
+            brick.width,
+            brick.height
+        )
+    }
+
+    drawBricks(bricks: Brick[]): void {
+        bricks.forEach(brick => this.drawSprite(brick));
     }
 
 }
