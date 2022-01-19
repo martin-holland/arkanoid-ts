@@ -7,10 +7,10 @@ import { BRICK_IMAGES } from '~/setup';
 
 export class CanvasView {
     canvas: HTMLCanvasElement;
-    context: CanvasRenderingContext2D | null;
-    scoreDisplay: HTMLObjectElement | null;
-    start: HTMLObjectElement | null;
-    info: HTMLObjectElement | null;
+    private context: CanvasRenderingContext2D | null;
+    private scoreDisplay: HTMLObjectElement | null;
+    private start: HTMLObjectElement | null;
+    private info: HTMLObjectElement | null;
 
     constructor(canvasName: string) {
         this.canvas = document.querySelector(canvasName) as HTMLCanvasElement;
@@ -36,7 +36,7 @@ export class CanvasView {
         if (this.info) this.info.innerHTML = text;
     }
 
-    drawSprite(brick: Brick | Paddle | Ball): void {
+    drawSprite(brick: Brick | Paddle): void {
         if (!brick) return;
         this.context?.drawImage(
             brick.image,
